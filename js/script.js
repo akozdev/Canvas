@@ -3,8 +3,9 @@ const ctx = canvas.getContext('2d');
 let startX, startY, endX, endY;
 const colors = {
 	main: 'rgb(245, 66, 245)',
-	mainTransparent: 'rgba(245, 66, 245, .5)'
+	mainTransparent: 'rgba(245, 66, 245, .1)'
 };
+
 
 // TODO: Move the callback to a separate function
 canvas.addEventListener('mousedown', (e) => {
@@ -50,7 +51,18 @@ canvas.addEventListener('mouseup', (e) => {
  */
 const handleVisualFeedback = (e) => {
 	const rect = e.target.getBoundingClientRect();
+	[currentX, currentY] = [e.clientX - rect.left, e.clientY - rect.top];
 
+	const cords = { startX, startY, endX: currentX, endY: currentY };
+	const [recWidth, recHeight] = [Math.abs(currentX - startX), Math.abs(currentY - startY)];
+	const startPoint = calculateCords(cords, recWidth, recHeight);
+
+	console.log(startPoint);
+
+	// TODO: find a way to remove the rectangle after drawing the right one
+
+	ctx.fillStyle = colors.mainTransparent;
+	ctx.fillRect(startPoint.x, startPoint.y, recWidth, recHeight);
 };
 
 
