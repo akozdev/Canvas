@@ -6,6 +6,7 @@ const colors = {
 	mainTransparent: 'rgba(245, 66, 245, .5)'
 };
 
+// TODO: Move the callback to a separate function
 canvas.addEventListener('mousedown', (e) => {
 	// Start the visual feedback
 	canvas.addEventListener('mousemove', handleVisualFeedback);
@@ -18,6 +19,7 @@ canvas.addEventListener('mousedown', (e) => {
 });
 
 
+// TODO: Move the callback to a separate function
 canvas.addEventListener('mouseup', (e) => {
 	// Stop the visual feedback
 	canvas.removeEventListener('mousemove', handleVisualFeedback);
@@ -38,6 +40,7 @@ canvas.addEventListener('mouseup', (e) => {
 	ctx.fillStyle = colors.main;
 	ctx.fillRect(startPoint.x, startPoint.y, rectWidth, rectHeight);
 });
+
 
 /**
  * Creates a visual feedback (semi-transparent rectangle)
