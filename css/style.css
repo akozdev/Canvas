@@ -1,18 +1,19 @@
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
 
 html { font-size: 62.5%; }
 body {
-	box-sizing: border-box;
-	font-family: 'Lato', sans-serif;
-	font-size: 1.8rem;
-	font-weight: 400;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  background-color: black;
 }
 
 #canvas-0 {
-	margin: 2rem;
-	border: 1px solid black;
+  margin: 2rem;
+  border: 1px solid white;
 }

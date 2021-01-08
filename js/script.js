@@ -7,8 +7,14 @@ const colors = {
 };
 
 
-// TODO: Move the callback to a separate function
-canvas.addEventListener('mousedown', (e) => {
+/**
+ * Handles the mousedown event occurring on the canvas
+ * Gets the coordinates of the starting point (x, y)
+ * Starts the handleVisualFeedback() function
+ *
+ * @param { object } e - the event passed by the addEventListener() function
+ */
+const handleMouseDown = (e) => {
 	// Start the visual feedback
 	canvas.addEventListener('mousemove', handleVisualFeedback);
 
@@ -17,11 +23,19 @@ canvas.addEventListener('mousedown', (e) => {
 	[startX, startY] = [e.clientX - rect.left, e.clientY - rect.top];
 
 	console.log(startX, startY);
-});
+};
 
 
-// TODO: Move the callback to a separate function
-canvas.addEventListener('mouseup', (e) => {
+
+/**
+ * Handles the mouse down event occurring on the canvas
+ * Gets the coordinates of the ending point (x, y)
+ * Draws rectangle
+ * Ends the handleVisualFeedback() function
+ *
+ * @param { object } e - the event passed by the addEventListener() function
+ */
+const handleMouseUp = (e) => {
 	// Stop the visual feedback
 	canvas.removeEventListener('mousemove', handleVisualFeedback);
 
@@ -31,8 +45,8 @@ canvas.addEventListener('mouseup', (e) => {
 	console.log(endX, endY);
 
 	const [rectWidth, rectHeight] = [
-			Math.abs(endX - startX),
-			Math.abs(endY - startY)
+		Math.abs(endX - startX),
+		Math.abs(endY - startY)
 	];
 
 	const cords = { startX, startY, endX, endY };
@@ -40,14 +54,14 @@ canvas.addEventListener('mouseup', (e) => {
 
 	ctx.fillStyle = colors.main;
 	ctx.fillRect(startPoint.x, startPoint.y, rectWidth, rectHeight);
-});
+};
 
 
 /**
  * Creates a visual feedback (semi-transparent rectangle)
  * that appears when you click and disappears when the mouse is up
  *
- * @param e - event passed by the addEventListener() function
+ * @param { object } e - event passed by the addEventListener() function
  */
 const handleVisualFeedback = (e) => {
 	const rect = e.target.getBoundingClientRect();
@@ -91,3 +105,8 @@ const calculateCords = (cords, width, height) => {
 
 	return startPoint;
 };
+
+
+// Event handlers
+canvas.addEventListener('mousedown', handleMouseDown);
+canvas.addEventListener('mouseup', handleMouseUp);
