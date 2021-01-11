@@ -120,9 +120,14 @@ const calculateCords = (cords, width, height) => {
 
 const drawRectangle = function(startPoint, width, height) {
 	const rectNode = document.createElement('div');
-	rect.className = 'visual_feedback';
+	rectNode.style.position = 'absolute';
+	rectNode.style.top = `${startPoint.x}px`;
+	rectNode.style.left = `${startPoint.y}px`;
+	rectNode.style.border = '1px dashed red';
+	rectNode.style.width = `${width}px`;
+	rectNode.style.height = `${height}px`;
 
-
+	document.body.appendChild(rectNode);
 }
 
 
