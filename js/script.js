@@ -22,7 +22,7 @@ const handleMouseDown = (e) => {
 	// Define the cords of starting position
 	[startX, startY] = [e.clientX - rect.left, e.clientY - rect.top];
 
-	console.log(startX, startY);
+	console.log(`Start point: ${startX}, ${startY}`);
 };
 
 
@@ -42,7 +42,7 @@ const handleMouseUp = (e) => {
 	const rect = e.target.getBoundingClientRect();
 	[endX, endY] = [e.clientX - rect.left, e.clientY - rect.top];
 
-	console.log(endX, endY);
+	console.log(`End point: ${endX}, ${endY}`);
 
 	const [rectWidth, rectHeight] = [
 		Math.abs(endX - startX),
@@ -66,7 +66,28 @@ const handleMouseUp = (e) => {
  * @param { object } e - event passed by the addEventListener() function
  */
 const handleVisualFeedback = (e) => {
-	
+
+	// TODO: Remove the rectangle drawn before
+
+	const rect = e.target.getBoundingClientRect();
+
+	// Calculate currentX and currentY
+	const [currentX, currentY] = [e.clientX - rect.left, e.clientY - rect.top];
+	// console.log(currentX, currentY);
+
+	// Calculate the current width and height
+	const [currentWidth, currentHeight] = [
+		Math.abs(startX - currentX),
+		Math.abs(startY - currentY)
+	];
+
+	// Get the new start point
+	const cords = { startX, startY, endX: currentX, endY: currentY };
+	const startPoint = calculateCords(cords, currentWidth, currentHeight);
+
+	// TODO: Create the rectangle to serve as a visual feedback
+	drawRectangle(startPoint, currentWidth, currentHeight);
+
 };
 
 
@@ -95,6 +116,14 @@ const calculateCords = (cords, width, height) => {
 
 	return startPoint;
 };
+
+
+const drawRectangle = function(startPoint, width, height) {
+	const rectNode = document.createElement('div');
+	rect.className = 'visual_feedback';
+
+
+}
 
 
 // Event handlers
