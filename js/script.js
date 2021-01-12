@@ -138,6 +138,9 @@ const drawRectangle = function(startPoint, width, height) {
 }
 
 
+/**
+ * Remove the visual feedback rectangle from the DOM
+ */
 const removeRectangle = function() {
 	try {
 		document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
