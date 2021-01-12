@@ -61,8 +61,6 @@ const handleMouseUp = (e) => {
 };
 
 
-/* TODO: Remake this function so that it doesn't use
-				 canvas for visual feedback */
 /**
  * Creates a visual feedback (semi-transparent rectangle)
  * that appears when you click and disappears when the mouse is up
@@ -71,7 +69,7 @@ const handleMouseUp = (e) => {
  */
 const handleVisualFeedback = (e) => {
 
-	// TODO: Remove the rectangle drawn before
+	// Remove the rectangle drawn before
 	removeRectangle();
 
 	const rect = e.target.getBoundingClientRect();
@@ -90,16 +88,7 @@ const handleVisualFeedback = (e) => {
 	const cords = { startX, startY, endX: currentX, endY: currentY };
 	const startPoint = calculateCords(cords, currentWidth, currentHeight);
 
-	console.log(startPoint);
-
-  // const startPoint = {
-  //   x: 20,
-  //   y: 20
-  // }
-
-	// TODO: Create the rectangle to serve as a visual feedback
 	drawRectangle(startPoint, currentWidth, currentHeight);
-
 };
 
 
@@ -132,6 +121,7 @@ const calculateCords = (cords, width, height) => {
 
 const drawRectangle = function(startPoint, width, height) {
 	const rectNode = document.createElement('div');
+	rectNode.classList.add('visual_feedback');
 	rectNode.style.position = 'absolute';
 	rectNode.style.top = `${startPoint.y + 20}px`;
 	rectNode.style.left = `${startPoint.x + 20}px`;
