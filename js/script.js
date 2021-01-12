@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas-0');
 const ctx = canvas.getContext('2d');
 let startX, startY, endX, endY;
+let currentRectangleCounter = 1;
 const colors = {
 	main: 'rgb(245, 66, 245)',
 	mainTransparent: 'rgba(245, 66, 245, .1)'
@@ -22,7 +23,7 @@ const handleMouseDown = (e) => {
 	// Define the cords of starting position
 	[startX, startY] = [e.clientX - rect.left, e.clientY - rect.top];
 
-	console.log(startX, startY);
+	console.log(`Start point: ${startX}, ${startY}`);
 };
 
 
@@ -42,7 +43,7 @@ const handleMouseUp = (e) => {
 	const rect = e.target.getBoundingClientRect();
 	[endX, endY] = [e.clientX - rect.left, e.clientY - rect.top];
 
-	console.log(endX, endY);
+	console.log(`End point: ${endX}, ${endY}`);
 
 	const [rectWidth, rectHeight] = [
 		Math.abs(endX - startX),
@@ -54,9 +55,14 @@ const handleMouseUp = (e) => {
 
 	ctx.fillStyle = colors.main;
 	ctx.fillRect(startPoint.x, startPoint.y, rectWidth, rectHeight);
+
+	// Remove visual feedback
+	removeRectangle();
 };
 
 
+/* TODO: Remake this function so that it doesn't use
+				 canvas for visual feedback */
 /**
  * Creates a visual feedback (semi-transparent rectangle)
  * that appears when you click and disappears when the mouse is up
@@ -64,19 +70,29 @@ const handleMouseUp = (e) => {
  * @param { object } e - event passed by the addEventListener() function
  */
 const handleVisualFeedback = (e) => {
+
+	// TODO: Remove the rectangle drawn before
+	removeRectangle();
+
 	const rect = e.target.getBoundingClientRect();
-	[currentX, currentY] = [e.clientX - rect.left, e.clientY - rect.top];
 
+	// Calculate currentX and currentY
+	const [currentX, currentY] = [e.clientX - rect.left, e.clientY - rect.top];
+	// console.log(currentX, currentY);
+
+	// Calculate the current width and height
+	const [currentWidth, currentHeight] = [
+		Math.abs(startX - currentX),
+		Math.abs(startY - currentY)
+	];
+
+	// Get the new start point
 	const cords = { startX, startY, endX: currentX, endY: currentY };
-	const [recWidth, recHeight] = [Math.abs(currentX - startX), Math.abs(currentY - startY)];
-	const startPoint = calculateCords(cords, recWidth, recHeight);
+	const startPoint = calculateCords(cords, currentWidth, currentHeight);
 
-	console.log(startPoint);
+	// TODO: Create the rectangle to serve as a visual feedback
+	drawRectangle(startPoint, currentWidth, currentHeight);
 
-	// TODO: find a way to remove the rectangle after drawing the right one
-
-	ctx.fillStyle = colors.mainTransparent;
-	ctx.fillRect(startPoint.x, startPoint.y, recWidth, recHeight);
 };
 
 
@@ -104,6 +120,30 @@ const calculateCords = (cords, width, height) => {
 	}
 
 	return startPoint;
+};
+
+
+const drawRectangle = function(startPoint, width, height) {
+	const rectNode = document.createElement('div');
+	rectNode.style.position = 'absolute';
+	rectNode.style.top = `${startPoint.x}px`;
+	rectNode.style.left = `${startPoint.y}px`;
+	rectNode.style.border = '1px dashed red';
+	rectNode.style.width = `${width}px`;
+	rectNode.style.height = `${height}px`;
+	rectNode.id = `vRect-${currentRectangleCounter}`;
+
+	document.body.appendChild(rectNode);
+	currentRectangleCounter++;
+}
+
+
+const removeRectangle = function() {
+	try {
+		document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
+	} catch (e) {
+		// just do nothing
+	}
 };
 
 
