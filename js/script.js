@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas-0');
 const ctx = canvas.getContext('2d');
 let startX, startY, endX, endY;
+let currentRectangleCounter = 1;
 const colors = {
 	main: 'rgb(245, 66, 245)',
 	mainTransparent: 'rgba(245, 66, 245, .1)'
@@ -54,6 +55,9 @@ const handleMouseUp = (e) => {
 
 	ctx.fillStyle = colors.main;
 	ctx.fillRect(startPoint.x, startPoint.y, rectWidth, rectHeight);
+
+	// Remove visual feedback
+	removeRectangle();
 };
 
 
@@ -68,6 +72,7 @@ const handleMouseUp = (e) => {
 const handleVisualFeedback = (e) => {
 
 	// TODO: Remove the rectangle drawn before
+	removeRectangle();
 
 	const rect = e.target.getBoundingClientRect();
 
@@ -126,9 +131,20 @@ const drawRectangle = function(startPoint, width, height) {
 	rectNode.style.border = '1px dashed red';
 	rectNode.style.width = `${width}px`;
 	rectNode.style.height = `${height}px`;
+	rectNode.id = `vRect-${currentRectangleCounter}`;
 
 	document.body.appendChild(rectNode);
+	currentRectangleCounter++;
 }
+
+
+const removeRectangle = function() {
+	try {
+		document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
+	} catch (e) {
+		// just do nothing
+	}
+};
 
 
 // Event handlers
