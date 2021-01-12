@@ -90,6 +90,13 @@ const handleVisualFeedback = (e) => {
 	const cords = { startX, startY, endX: currentX, endY: currentY };
 	const startPoint = calculateCords(cords, currentWidth, currentHeight);
 
+	console.log(startPoint);
+
+  // const startPoint = {
+  //   x: 20,
+  //   y: 20
+  // }
+
 	// TODO: Create the rectangle to serve as a visual feedback
 	drawRectangle(startPoint, currentWidth, currentHeight);
 
@@ -126,8 +133,8 @@ const calculateCords = (cords, width, height) => {
 const drawRectangle = function(startPoint, width, height) {
 	const rectNode = document.createElement('div');
 	rectNode.style.position = 'absolute';
-	rectNode.style.top = `${startPoint.x}px`;
-	rectNode.style.left = `${startPoint.y}px`;
+	rectNode.style.top = `${startPoint.y + 20}px`;
+	rectNode.style.left = `${startPoint.x + 20}px`;
 	rectNode.style.border = '1px dashed red';
 	rectNode.style.width = `${width}px`;
 	rectNode.style.height = `${height}px`;
@@ -145,6 +152,7 @@ const removeRectangle = function() {
 	try {
 		document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
 	} catch (e) {
+	  // Prevents the error from the initial case when there is no previous rectangle in the DOM
 		// just do nothing
 	}
 };
