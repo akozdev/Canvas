@@ -1,0 +1,25 @@
+{
+  "name": "canvas",
+  "version": "1.0.0",
+  "description": "Playing with the Canvas API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akozdev/Canvas.git"
+  },
+  "keywords": [
+    "canvas"
+  ],
+  "author": "akozdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akozdev/Canvas/issues"
+  },
+  "homepage": "https://github.com/akozdev/Canvas#readme",
+  "devDependencies": {
+    "prettier": "2.4.0"
+  }
+}
