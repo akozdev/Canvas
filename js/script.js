@@ -1,12 +1,12 @@
 const canvas = document.getElementById('canvas-0');
 const ctx = canvas.getContext('2d');
+const clearBtn = document.querySelector('.btn__clear-canvas');
 let startX, startY, endX, endY;
 let currentRectangleCounter = 1;
 const colors = {
   main: 'rgb(245, 66, 245)',
   mainTransparent: 'rgba(245, 66, 245, .1)'
 };
-
 
 /**
  * Handles the mousedown event occurring on the canvas
@@ -25,8 +25,6 @@ const handleMouseDown = (e) => {
 
   console.log(`Start point: ${startX}, ${startY}`);
 };
-
-
 
 /**
  * Handles the mouse down event occurring on the canvas
@@ -60,7 +58,6 @@ const handleMouseUp = (e) => {
   removeRectangle();
 };
 
-
 /**
  * Creates a visual feedback (semi-transparent rectangle)
  * that appears when you click and disappears when the mouse is up
@@ -68,7 +65,6 @@ const handleMouseUp = (e) => {
  * @param { object } e - event passed by the addEventListener() function
  */
 const handleVisualFeedback = (e) => {
-
   // Remove the rectangle drawn before
   removeRectangle();
 
@@ -90,7 +86,6 @@ const handleVisualFeedback = (e) => {
 
   drawRectangle(startPoint, currentWidth, currentHeight);
 };
-
 
 /**
  * Calculate the coordinates (x, y) of the starting point
@@ -118,8 +113,7 @@ const calculateCords = (cords, width, height) => {
   return startPoint;
 };
 
-
-const drawRectangle = function(startPoint, width, height) {
+const drawRectangle = function (startPoint, width, height) {
   const rectNode = document.createElement('div');
   rectNode.classList.add('visual_feedback');
   rectNode.style.position = 'absolute';
@@ -132,22 +126,28 @@ const drawRectangle = function(startPoint, width, height) {
 
   document.body.appendChild(rectNode);
   currentRectangleCounter++;
-}
-
+};
 
 /**
  * Remove the visual feedback rectangle from the DOM
  */
-const removeRectangle = function() {
+const removeRectangle = () => {
   try {
-    document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
+    document.getElementById(`vRect-${currentRectangleCounter - 1}`).remove();
   } catch (e) {
     // Prevents the error from the initial case when there is no previous rectangle in the DOM
     // just do nothing
   }
 };
 
+/**
+ * Clear the canvas
+ */
+const clearCanvas = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
 
 // Event handlers
 canvas.addEventListener('mousedown', handleMouseDown);
 canvas.addEventListener('mouseup', handleMouseUp);
+clearBtn.addEventListener('click', clearCanvas);

@@ -21,3 +21,7 @@ body {
 .visual_feedback {
   pointer-events: none;
 }
+
+.btn__clear-canvas {
+  padding: .5rem 1rem;
+}
