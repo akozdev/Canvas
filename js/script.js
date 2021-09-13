@@ -3,8 +3,8 @@ const ctx = canvas.getContext('2d');
 let startX, startY, endX, endY;
 let currentRectangleCounter = 1;
 const colors = {
-	main: 'rgb(245, 66, 245)',
-	mainTransparent: 'rgba(245, 66, 245, .1)'
+  main: 'rgb(245, 66, 245)',
+  mainTransparent: 'rgba(245, 66, 245, .1)'
 };
 
 
@@ -16,14 +16,14 @@ const colors = {
  * @param { object } e - the event passed by the addEventListener() function
  */
 const handleMouseDown = (e) => {
-	// Start the visual feedback
-	canvas.addEventListener('mousemove', handleVisualFeedback);
+  // Start the visual feedback
+  canvas.addEventListener('mousemove', handleVisualFeedback);
 
-	const rect = e.target.getBoundingClientRect();
-	// Define the cords of starting position
-	[startX, startY] = [e.clientX - rect.left, e.clientY - rect.top];
+  const rect = e.target.getBoundingClientRect();
+  // Define the cords of starting position
+  [startX, startY] = [e.clientX - rect.left, e.clientY - rect.top];
 
-	console.log(`Start point: ${startX}, ${startY}`);
+  console.log(`Start point: ${startX}, ${startY}`);
 };
 
 
@@ -37,27 +37,27 @@ const handleMouseDown = (e) => {
  * @param { object } e - the event passed by the addEventListener() function
  */
 const handleMouseUp = (e) => {
-	// Stop the visual feedback
-	canvas.removeEventListener('mousemove', handleVisualFeedback);
+  // Stop the visual feedback
+  canvas.removeEventListener('mousemove', handleVisualFeedback);
 
-	const rect = e.target.getBoundingClientRect();
-	[endX, endY] = [e.clientX - rect.left, e.clientY - rect.top];
+  const rect = e.target.getBoundingClientRect();
+  [endX, endY] = [e.clientX - rect.left, e.clientY - rect.top];
 
-	console.log(`End point: ${endX}, ${endY}`);
+  console.log(`End point: ${endX}, ${endY}`);
 
-	const [rectWidth, rectHeight] = [
-		Math.abs(endX - startX),
-		Math.abs(endY - startY)
-	];
+  const [rectWidth, rectHeight] = [
+    Math.abs(endX - startX),
+    Math.abs(endY - startY)
+  ];
 
-	const cords = { startX, startY, endX, endY };
-	const startPoint = calculateCords(cords, rectWidth, rectHeight);
+  const cords = { startX, startY, endX, endY };
+  const startPoint = calculateCords(cords, rectWidth, rectHeight);
 
-	ctx.fillStyle = colors.main;
-	ctx.fillRect(startPoint.x, startPoint.y, rectWidth, rectHeight);
+  ctx.fillStyle = colors.main;
+  ctx.fillRect(startPoint.x, startPoint.y, rectWidth, rectHeight);
 
-	// Remove visual feedback
-	removeRectangle();
+  // Remove visual feedback
+  removeRectangle();
 };
 
 
@@ -69,26 +69,26 @@ const handleMouseUp = (e) => {
  */
 const handleVisualFeedback = (e) => {
 
-	// Remove the rectangle drawn before
-	removeRectangle();
+  // Remove the rectangle drawn before
+  removeRectangle();
 
-	const rect = e.target.getBoundingClientRect();
+  const rect = e.target.getBoundingClientRect();
 
-	// Calculate currentX and currentY
-	const [currentX, currentY] = [e.clientX - rect.left, e.clientY - rect.top];
-	// console.log(currentX, currentY);
+  // Calculate currentX and currentY
+  const [currentX, currentY] = [e.clientX - rect.left, e.clientY - rect.top];
+  // console.log(currentX, currentY);
 
-	// Calculate the current width and height
-	const [currentWidth, currentHeight] = [
-		Math.abs(startX - currentX),
-		Math.abs(startY - currentY)
-	];
+  // Calculate the current width and height
+  const [currentWidth, currentHeight] = [
+    Math.abs(startX - currentX),
+    Math.abs(startY - currentY)
+  ];
 
-	// Get the new start point
-	const cords = { startX, startY, endX: currentX, endY: currentY };
-	const startPoint = calculateCords(cords, currentWidth, currentHeight);
+  // Get the new start point
+  const cords = { startX, startY, endX: currentX, endY: currentY };
+  const startPoint = calculateCords(cords, currentWidth, currentHeight);
 
-	drawRectangle(startPoint, currentWidth, currentHeight);
+  drawRectangle(startPoint, currentWidth, currentHeight);
 };
 
 
@@ -102,36 +102,36 @@ const handleVisualFeedback = (e) => {
  * @returns {{x: number, y: number}} - an object containing coordinates of the new starting point (x, y)
  */
 const calculateCords = (cords, width, height) => {
-	const { startX, startY, endX, endY } = cords;
-	let startPoint = { x: 0, y: 0 };
+  const { startX, startY, endX, endY } = cords;
+  let startPoint = { x: 0, y: 0 };
 
-	if (endX - startX > 0 && endY - startY > 0) {
-		startPoint = { x: startX, y: startY };
-	} else if (endX - startX < 0 && endY - startY > 0) {
-		startPoint = { x: startX - width, y: startY };
-	} else if (endX - startX > 0 && endY - startY < 0) {
-		startPoint = { x: startX, y: startY - height };
-	} else if (endX - startX < 0 && endY - startY < 0) {
-		startPoint = { x: startX - width, y: startY - height };
-	}
+  if (endX - startX > 0 && endY - startY > 0) {
+    startPoint = { x: startX, y: startY };
+  } else if (endX - startX < 0 && endY - startY > 0) {
+    startPoint = { x: startX - width, y: startY };
+  } else if (endX - startX > 0 && endY - startY < 0) {
+    startPoint = { x: startX, y: startY - height };
+  } else if (endX - startX < 0 && endY - startY < 0) {
+    startPoint = { x: startX - width, y: startY - height };
+  }
 
-	return startPoint;
+  return startPoint;
 };
 
 
 const drawRectangle = function(startPoint, width, height) {
-	const rectNode = document.createElement('div');
-	rectNode.classList.add('visual_feedback');
-	rectNode.style.position = 'absolute';
-	rectNode.style.top = `${startPoint.y + 20}px`;
-	rectNode.style.left = `${startPoint.x + 20}px`;
-	rectNode.style.border = '1px dashed red';
-	rectNode.style.width = `${width}px`;
-	rectNode.style.height = `${height}px`;
-	rectNode.id = `vRect-${currentRectangleCounter}`;
+  const rectNode = document.createElement('div');
+  rectNode.classList.add('visual_feedback');
+  rectNode.style.position = 'absolute';
+  rectNode.style.top = `${startPoint.y + 20}px`;
+  rectNode.style.left = `${startPoint.x + 20}px`;
+  rectNode.style.border = '1px dashed red';
+  rectNode.style.width = `${width}px`;
+  rectNode.style.height = `${height}px`;
+  rectNode.id = `vRect-${currentRectangleCounter}`;
 
-	document.body.appendChild(rectNode);
-	currentRectangleCounter++;
+  document.body.appendChild(rectNode);
+  currentRectangleCounter++;
 }
 
 
@@ -139,12 +139,12 @@ const drawRectangle = function(startPoint, width, height) {
  * Remove the visual feedback rectangle from the DOM
  */
 const removeRectangle = function() {
-	try {
-		document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
-	} catch (e) {
-	  // Prevents the error from the initial case when there is no previous rectangle in the DOM
-		// just do nothing
-	}
+  try {
+    document.getElementById(`vRect-${currentRectangleCounter-1}`).remove();
+  } catch (e) {
+    // Prevents the error from the initial case when there is no previous rectangle in the DOM
+    // just do nothing
+  }
 };
 
 
